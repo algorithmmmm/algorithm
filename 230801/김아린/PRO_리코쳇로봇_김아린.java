@@ -43,12 +43,10 @@ class Solution {
     
     public int bfs(int startX, int startY) {
         Queue<Dot> queue = new LinkedList<>();
-        int min = Integer.MAX_VALUE; //정답 : 최소 이동 횟수
         
         queue.add(new Dot(startX, startY, 0));
         visited[startX][startY] = true;
         
-        boolean flag = false; //도달할 수 있는지
         while(!queue.isEmpty()) {
             Dot dot = queue.poll();
             
@@ -62,9 +60,7 @@ class Solution {
                 }
                 
                 if(graph[nx - dx[d]][ny - dy[d]] == 'G') { //목표 도달
-                    min = Math.min(min, dot.dist + 1); //최소 이동 횟수 갱신
-                    flag = true;
-                    break;
+                    return dot.dist + 1; //최소 이동 횟수 반환
                 }
                 
                 //이동함
@@ -76,10 +72,6 @@ class Solution {
             
         }
         
-        if(flag) { //도달할 수 있음
-        	return min;
-        } else { //없음
-        	return -1;
-        }
+        return -1;
     }
 }
