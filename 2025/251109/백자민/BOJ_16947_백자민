@@ -1,0 +1,62 @@
+import sys
+from collections import deque
+sys.setrecursionlimit(10**9)
+
+input = lambda:sys.stdin.readline().rstrip()
+
+N = int(input())
+stations = [[] for _ in range(N+1)]
+visit = [-1 for _ in range(N+1)]
+cycle = []
+flag = False
+
+def dfs(start, end, cnt, tmp):
+    global flag
+    for nxt in stations[end]:
+        if nxt == start and cnt>2:
+            for t in tmp:
+                cycle.append(t)
+            flag = True
+        
+        if visit[nxt]==-1:
+            visit[nxt] = 1
+            dfs(start, nxt, cnt+1, tmp+[nxt])
+            visit[nxt]=-1
+
+def bfs():
+    q = deque()
+    visit = [-1 for _ in range(N+1)]
+
+    for c in cycle:
+        q.append((c,0))
+        visit[c] = 0
+    
+    while q:
+        tmp, cnt = q.popleft()
+
+        for nxt in stations[tmp]:
+            if visit[nxt] == -1:
+                visit[nxt] = cnt+1
+                q.append((nxt, cnt+1))
+    
+    return visit
+
+
+def main():
+
+    for i in range(N):
+        a,b = map(int, input().split())
+        stations[a].append(b)
+        stations[b].append(a)
+
+    for i in range(1,N+1):
+        if flag == True:
+            break
+        visit[i]=1
+        dfs(i,i,1,[i])
+        visit[i]=-1
+    
+    print(*bfs()[1:])
+
+if __name__=="__main__":
+    main()
