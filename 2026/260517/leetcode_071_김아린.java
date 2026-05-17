@@ -14,12 +14,11 @@ class Solution {
             }
         }
 
-        // 경로 재조합
         StringBuilder sb = new StringBuilder();
         for(String str : stack) {
-            sb.append("/" + str);
+            sb.append("/").append(str);
         }
-        
+
         return sb.length() == 0 ? "/" : sb.toString();
     }
 }
